@@ -84,10 +84,10 @@ public class GameStateActivity extends Activity {
 
 		endGame.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				String[] teams = { "draw", "blue", "red" };
+				String[] teams = { "None", "'A'", "'B'" };
 				String team = teams[winner.getSelectedItemPosition()];
 				Log.i(LOGTAG, "Ending game: " + team);
-				telnet.send("game.endGame(\"" + team + "\")");
+				telnet.send("game.endGame(" + team + ")");
 				update();
 			}
 		});
@@ -145,43 +145,60 @@ public class GameStateActivity extends Activity {
 
 		Resources res = getResources();
 
-		if (result.equals("P")) {
+		Boolean start = false;
+		Boolean end = false;
+		
+		if (result.equals("PreGame")) {
 			gameState.setText("Pre-game");
 			gameState.setTextColor(res.getColor(R.color.light_yellow));
-			startGame.setEnabled(true);
-			// skipCountdown.setEnabled(true);
-			endGame.setEnabled(false);
-			winner.setEnabled(false);
-		} else if (result.equals("I")) {
+			start = true;
+		} else if (result.equals("Lobby")) {
+			gameState.setText("Lobby");
+			gameState.setTextColor(res.getColor(R.color.light_yellow));
+			start = true;
+		} else if (result.equals("Starting")) {
+			gameState.setText("Starting...");
+			gameState.setTextColor(res.getColor(R.color.light_yellow));
+		} else if (result.equals("InProgress")) {
 			gameState.setText("Active");
 			gameState.setTextColor(res.getColor(R.color.light_green));
-			startGame.setEnabled(false);
-			skipCountdown.setEnabled(false);
-			endGame.setEnabled(true);
-			winner.setEnabled(true);
-			changeTime.setEnabled(true);
-		} else if (result.equals("B")) {
-			gameState.setText("Blue wins!");
-			gameState.setTextColor(res.getColor(R.color.blue_text));
-		} else if (result.equals("R")) {
-			gameState.setText("Red wins!");
-			gameState.setTextColor(res.getColor(R.color.red_text));
-		} else if (result.equals("D")) {
-			gameState.setText("It's a draw!");
-			gameState.setTextColor(res.getColor(R.color.neutral_text));
+			end = true;
+		} else if (result.equals("Ended")) {
+			
+			result = telnet.readWrite("game.getWinningTeam()");
+			if (result.length() == 0) {
+				gameState.setText("It's a draw!");
+				gameState.setTextColor(res.getColor(R.color.neutral_text));
+			} else {
+				result = (String) telnet.parse(result);
+				if (result.equals("A")) {
+					gameState.setText("Blue wins!");
+					gameState.setTextColor(res.getColor(R.color.blue_text));
+				} else {
+					gameState.setText("Red wins!");
+					gameState.setTextColor(res.getColor(R.color.red_text));
+				}
+			}
 		} else {
-			gameState.setText("Unknown [" + result + "]");
+			gameState.setText("Unknown");
 			gameState.setTextColor(res.getColor(R.color.disabled));
 		}
 
-		if (!result.equals("P") && !result.equals("I")) {
+		if (start) {
+			startGame.setEnabled(true);
+			//skipCountdown.setEnabled(true);
+		} else {
 			startGame.setEnabled(false);
 			skipCountdown.setEnabled(false);
-			endGame.setEnabled(false);
-			winner.setEnabled(false);
 		}
 		
-		if (!result.equals("I")) {
+		if (end) {
+			endGame.setEnabled(true);
+			winner.setEnabled(true);
+			changeTime.setEnabled(true);
+		} else {
+			endGame.setEnabled(false);
+			winner.setEnabled(false);
 			changeTime.setEnabled(false);
 		}
 
@@ -189,12 +206,11 @@ public class GameStateActivity extends Activity {
 
 		// Time remaining
 		
-		//result = telnet.readWrite("game.world.getTimeLeft()");
-		result = "";
+		result = telnet.readWrite("game.getTimeRemaining()");
 		if (result.length() == 0) {
 			timeLeft.setText("--:--");
 			timeLeft.setTextColor(res.getColor(R.color.neutral_text));
-		} else if (result.startsWith("Traceback")) {
+		} else if (result.equals("False")) {
 			timeLeft.setText("\u221E");
 			timeLeft.setTextColor(res.getColor(R.color.light_green));
 		} else {

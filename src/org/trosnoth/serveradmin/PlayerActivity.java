@@ -123,9 +123,8 @@ public class PlayerActivity extends Activity {
 		kickPlayer = (Button) findViewById(R.id.buttonKickPlayer);
 		kickPlayer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				notYetImplemented();
-				// telnet.send("game.kickPlayer(game.getPlayers()[\""+currentPlayer+"\"].id)");
-				// update();
+				telnet.send("game.kickPlayer(game.getPlayers()[\""+currentPlayer+"\"].id)");
+				update();
 			}
 		});
 
@@ -143,7 +142,10 @@ public class PlayerActivity extends Activity {
 		removeUpgrade = (Button) findViewById(R.id.buttonRemoveUpgrade);
 		removeUpgrade.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				notYetImplemented();
+				telnet.send("getGame().removeUpgrade(getGame().getPlayers()[\"" + currentPlayer
+								+ "\"])");
+				Log.i(LOGTAG, "Removing upgrade from " + currentPlayer);
+				update();
 			}
 		});
 
@@ -295,13 +297,22 @@ public class PlayerActivity extends Activity {
 		}
 
 		// Team
-		result = (String) telnet.parse(telnet.readWrite("player.team"));
+		result = telnet.readWrite("player.team");
 		if (result.length() == 0) {
 			textTeam.setText("Rogue");
 			textTeam.setTextColor(res.getColor(R.color.neutral_text));
 		} else {
-			textTeam.setText("Unknown [" + result + "]");
-			textTeam.setTextColor(res.getColor(android.R.color.white));
+			result = (String) telnet.parse(telnet.readWrite("player.team.id"));
+			if (result.equals("A")) {
+				textTeam.setText("Blue team");
+				textTeam.setTextColor(res.getColor(R.color.blue_text));
+			} else if (result.equals("B")) {
+				textTeam.setText("Red team");
+				textTeam.setTextColor(res.getColor(R.color.red_text));
+			} else {
+				textTeam.setText("Unknown [" + result + "]");
+				textTeam.setTextColor(res.getColor(android.R.color.white));
+			}
 		}
 
 		// Current upgrade
