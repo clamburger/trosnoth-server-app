@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_darkred"
+    android:orientation="horizontal" >
+
+    <SlidingDrawer
+        android:id="@+id/drawerPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:content="@+id/content"
+        android:handle="@+id/drawerHandle"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/layoutPlayers"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/bg_darkblue" >
+
+                <ListView
+                    android:id="@+id/listPlayers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:cacheColorHint="@color/bg_darkblue" >
+                </ListView>
+
+                <TextView
+                    android:id="@+id/textListHelper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginTop="5sp"
+                    android:text="Loading..."
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/drawerHandle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/status_bar_close_vert" />
+    </SlidingDrawer>
+
+    <RelativeLayout
+        android:id="@+id/layoutControls"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30sp"
+        android:background="@color/bg_darkblue" android:padding="5sp" android:layout_above="@+id/layoutUpgrades">
+
+        <LinearLayout
+            android:id="@+id/layoutControls3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" android:layout_centerInParent="true">
+
+            <Button
+                android:id="@+id/buttonKickPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kick Player"/>
+
+            <Button
+                android:id="@+id/buttonGiveUpgrade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Give Selected Upgrade" />
+
+            <Button
+                android:id="@+id/buttonRemoveUpgrade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/buttonGiveUpgrade"
+                android:text="Remove Upgrade" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutInformation"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/layoutUpgrades"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/layoutControls"
+        android:background="@color/bg_darkred"
+        android:paddingLeft="5sp"
+        android:paddingTop="5sp" >
+
+        <TextView
+            android:id="@+id/textPlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Loading..."
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textPlayerName"
+            android:text="Please wait..."
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textUsername"
+            android:layout_marginTop="15dp"
+            android:text="Rogue"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/neutral_text" />
+
+        <TextView
+            android:id="@+id/textAlive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textTeam"
+            android:layout_marginRight="10sp"
+            android:text="Alive"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/light_green" />
+
+        <TextView
+            android:id="@+id/textUpgrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView4"
+            android:layout_below="@+id/textAlive"
+            android:text="No upgrade"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textStars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textAlive"
+            android:layout_toRightOf="@+id/textAlive"
+            android:text="0 stars"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/light_yellow" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutUpgrades"
+        android:layout_width="fill_parent"
+        android:layout_height="110dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30sp"
+        android:background="@color/bg_darkgreen" >
+
+        <TextView
+            android:id="@+id/textUpgradeInstruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5sp"
+            android:layout_marginTop="5sp"
+            android:text="@string/upgrade_instruction"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Gallery
+            android:id="@+id/galleryUpgrades"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:spacing="10dp" />
+
+        <TextView
+            android:id="@+id/textSelectedUpgrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textUpgradeInstruction"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5sp"
+            android:text="Minimap Disruption"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </RelativeLayout>
+
+</RelativeLayout>

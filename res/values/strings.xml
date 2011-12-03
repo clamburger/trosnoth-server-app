@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Trosnoth Admin</string>
+    <string name="menu_title">Trosnoth Server Admin Console</string>
+    
+    <string name="start_game">Start game</string>
+    <string name="start_game_countdown">Skip countdown</string>
+    <string name="end_game">End game - Draw</string>
+    <string name="end_game_blue">End game - Blue wins</string>
+    <string name="end_game_red">End game - Red wins</string>
+    <string name="reset_game">Reset game (go to lobby)</string>
+    <string name="change_time">Change remaining time</string>
+    <string name="select_winner">Select winner</string>
+    <string name="upgrade_instruction">Selected upgrade:</string>
+    
+    <string-array name="end_game_winners">
+        <item>Draw</item>
+        <item>Blue team wins</item>
+        <item>Red team wins</item>
+    </string-array>
+
+</resources>

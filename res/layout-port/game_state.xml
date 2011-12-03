@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_darkred"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layoutStateLeft"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/bg_darkblue" >
+
+        <LinearLayout
+            android:id="@+id/layoutGameState"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" android:layout_marginBottom="10sp" android:layout_marginTop="5sp">
+
+            <TextView
+                android:id="@+id/textGameStateHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5sp"
+                android:text="Game state:"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textGameState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading..."
+                android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="@color/disabled"/>
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/tableLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" android:layout_below="@+id/layoutGameState">
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/buttonStartGame"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/start_game" />
+
+                <CheckBox
+                    android:id="@+id/checkSkipCountdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/start_game_countdown" android:layout_marginRight="-20sp"/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/buttonEndGame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="End game" />
+
+                <Spinner
+                    android:id="@+id/spinnerWinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/end_game_winners" android:prompt="@string/select_winner"/>
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:id="@+id/buttonResetGame"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/reset_game" android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutStateRight"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/layoutTime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:orientation="horizontal" android:layout_marginTop="5sp" android:layout_marginBottom="10sp">
+
+            <TextView
+                android:id="@+id/textTimeLeftHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="5sp"
+                android:text="Time remaining:"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textTimeLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textTimeLeftHeader"
+                android:layout_centerHorizontal="true"
+                android:text="\??:??"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/disabled" />
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/tableZoneState"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/bg_darkgreen" android:paddingBottom="5sp" android:paddingTop="5sp" android:weightSum="100">
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Blue zones:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"/>
+
+                <TextView
+                    android:id="@+id/textBlueZones"
+                    android:layout_width="40sp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/disabled" android:gravity="center" android:layout_marginLeft="10sp" android:text="..."/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Neutral zones:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"/>
+
+                <TextView
+                    android:id="@+id/textNeutralZones"
+                    android:layout_width="40sp"
+                    android:layout_height="wrap_content"
+                    android:text="..."
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/disabled" android:gravity="center" android:layout_marginLeft="10sp"/>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="Red zones:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"/>
+
+                <TextView
+                    android:id="@+id/textRedZones"
+                    android:layout_width="40sp"
+                    android:layout_height="wrap_content"
+                    android:text="..."
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/disabled" android:gravity="center" android:layout_marginLeft="10sp"/>
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:id="@+id/buttonChangeTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutTime"
+            android:layout_centerHorizontal="true"
+            android:text="@string/change_time" />
+
+    </RelativeLayout>
+
+</LinearLayout>

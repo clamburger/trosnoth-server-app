@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_blue">#0000B3</color>
+    <color name="bg_darkblue">#00004D</color>
+    <color name="bg_red">#B30000</color>
+    <color name="bg_darkred">#4D0000</color>
+    
+    <color name="bg_darkgreen">#004D00</color>
+    
+    <color name="blue_text">#00FFFF</color>
+    <color name="red_text">#FF7A7A</color>
+    <color name="neutral_text">#B8B8B8</color>
+    
+    <color name="light_green">#00FF00</color>
+    <color name="light_yellow">#FFFF00</color>
+    <color name="light_red">#FF0000</color>
+    
+    <color name="disabled">#666666</color>
+</resources>

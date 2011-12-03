@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/gradient_90"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/menu_title"
+        android:textColor="#ffffff"
+        android:textSize="35sp" />
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical" android:layout_below="@id/textTitle" android:layout_marginTop="10sp">
+
+        <TextView
+            android:id="@+id/textServerIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Server IP"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/editServerIP"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Server IP"
+            android:inputType="phone"
+            android:text="192.168.1.10"
+            android:typeface="monospace"
+            android:width="180sp" />
+
+        <TextView
+            android:id="@+id/textPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Password"
+            android:inputType="number"
+            android:text="12345"
+            android:typeface="monospace"
+            android:width="180sp" />
+
+        <Button
+            android:id="@+id/buttonConnect"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:text="Connect" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageRedPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:maxHeight="220dp"
+        android:src="@drawable/beta_256" />
+
+</RelativeLayout>
