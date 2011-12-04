@@ -17,6 +17,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/saveIP" android:title="Save Server IP" android:icon="@drawable/ic_menu_save"></item>
     <item android:id="@+id/savePassword" android:title="Save Password" android:icon="@drawable/ic_menu_save"></item>
+    <item android:id="@+id/toggleUpdates" android:title="Toggle Updates" android:icon="@drawable/ic_menu_agenda"></item>
 
     
 

@@ -15,6 +15,8 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
+import org.trosnoth.serveradmin.helpers.InputFilters;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,8 +26,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -126,12 +126,17 @@ public class GameStateActivity extends Activity {
 		Runnable looper = new Runnable() {
 			public void run() {
 				update();				
-				mHandler.postDelayed(this, 3000);
+				mHandler.postDelayed(this, MainMenuActivity.UPDATE_FREQ);
 			}
 		};
 
-		mHandler.removeCallbacks(looper);
-		mHandler.post(looper);
+		if (MainMenuActivity.automaticUpdate) {
+			mHandler.removeCallbacks(looper);
+			mHandler.post(looper);
+		} else {
+			update();
+		}
+		
 	}
 
 	public void update() {
@@ -139,6 +144,8 @@ public class GameStateActivity extends Activity {
 		String result;
 		int intResult;
 
+		telnet.send("game = getGame()");
+		
 		// Get game state
 		result = telnet.readWrite("game.getGameState()");
 		result = (String) telnet.parse(result);
@@ -260,28 +267,8 @@ public class GameStateActivity extends Activity {
 			View layout = inflater.inflate(R.layout.time_dialog,
 							(ViewGroup) findViewById(R.id.layout_root));
 
-			InputFilter[] filters = new InputFilter[1];
-			filters[0] = new InputFilter() {
-				public CharSequence filter(CharSequence source, int start, int end,
-								Spanned dest, int dstart, int dend) {
-					if (end > start) {
-						String destTxt = dest.toString();
-						String resultingTxt = destTxt.substring(0, dstart)
-										+ source.subSequence(start, end)
-										+ destTxt.substring(dend);
-						if (!resultingTxt.matches("^\\d{1,2}?")) {
-							return "";
-						}
-						if (Integer.valueOf(resultingTxt) > 59) {
-							return "";
-						}
-					}
-					return null;
-				}
-
-			};
 			final EditText secs = (EditText) layout.findViewById(R.id.editSeconds);
-			secs.setFilters(filters);
+			secs.setFilters(InputFilters.integerFilter(59));
 			
 			final EditText mins = (EditText) layout.findViewById(R.id.editMinutes);
 

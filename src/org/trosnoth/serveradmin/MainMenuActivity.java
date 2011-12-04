@@ -49,12 +49,14 @@ public class MainMenuActivity extends Activity {
 
 	private static final String LOGTAG = "Trosnoth Main";
 	private static final String PREFS_NAME = "trosnoth";
-	
+
 	private SharedPreferences settings;
 
 	public static AutomatedTelnetClient telnet;
 
 	public static String serverIP;
+	public static Boolean automaticUpdate;
+	public static int UPDATE_FREQ = 5000;
 
 	private String errorMessage = "An error occurred while displaying this error.";
 
@@ -103,6 +105,7 @@ public class MainMenuActivity extends Activity {
 		settings = getSharedPreferences(PREFS_NAME, 0);
 		editServerIP.setText(settings.getString("serverIP", ""));
 		editPassword.setText(settings.getString("password", ""));
+		automaticUpdate = settings.getBoolean("autoUpdate", true);
 	}
 
 	public void readLine(BufferedReader r) throws IOException {
@@ -232,6 +235,12 @@ public class MainMenuActivity extends Activity {
 			return true;
 		case R.id.savePassword:
 			editor.putString("password", editPassword.getText().toString());
+			editor.commit();
+			return true;
+		case R.id.toggleUpdates:
+			automaticUpdate = !automaticUpdate;
+			editor.putBoolean("autoUpdate", automaticUpdate);
+			makeToast("Automatic updates: " + Boolean.toString(automaticUpdate));
 			editor.commit();
 			return true;
 		default:

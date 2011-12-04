@@ -16,9 +16,9 @@
 package org.trosnoth.serveradmin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +46,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class PlayerActivity extends Activity {
 
@@ -85,10 +84,6 @@ public class PlayerActivity extends Activity {
 
 	private String currentPlayer = null;
 	private Handler mHandler = new Handler();
-	
-	public void notYetImplemented() {
-		Toast.makeText(getApplicationContext(), "Not yet implemented.", Toast.LENGTH_LONG).show();
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +118,7 @@ public class PlayerActivity extends Activity {
 		kickPlayer = (Button) findViewById(R.id.buttonKickPlayer);
 		kickPlayer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				telnet.send("game.kickPlayer(game.getPlayers()[\""+currentPlayer+"\"].id)");
+				telnet.send("game.kickPlayer(game.getPlayers()["+currentPlayer()+"].id)");
 				update();
 			}
 		});
@@ -132,8 +127,8 @@ public class PlayerActivity extends Activity {
 		giveUpgrade.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				int position = upgradeGallery.getSelectedItemPosition();
-				telnet.send("getGame().giveUpgrade(getGame().getPlayers()[\"" + currentPlayer
-								+ "\"], \"" + upgradeCodes[position] + "\")");
+				telnet.send("getGame().giveUpgrade(getGame().getPlayers()[" + currentPlayer()
+								+ "], \"" + upgradeCodes[position] + "\")");
 				Log.i(LOGTAG, "Giving upgrade (" + upgrades[position] + ") to " + currentPlayer);
 				update();
 			}
@@ -142,8 +137,7 @@ public class PlayerActivity extends Activity {
 		removeUpgrade = (Button) findViewById(R.id.buttonRemoveUpgrade);
 		removeUpgrade.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				telnet.send("getGame().removeUpgrade(getGame().getPlayers()[\"" + currentPlayer
-								+ "\"])");
+				telnet.send("getGame().removeUpgrade(getGame().getPlayers()[" + currentPlayer() + "])");
 				Log.i(LOGTAG, "Removing upgrade from " + currentPlayer);
 				update();
 			}
@@ -181,12 +175,16 @@ public class PlayerActivity extends Activity {
 		Runnable looper = new Runnable() {
 			public void run() {
 				update();				
-				mHandler.postDelayed(this, 3000);
+				mHandler.postDelayed(this, MainMenuActivity.UPDATE_FREQ);
 			}
 		};
 
-		mHandler.removeCallbacks(looper);
-		mHandler.post(looper);
+		if (MainMenuActivity.automaticUpdate) {
+			mHandler.removeCallbacks(looper);
+			mHandler.post(looper);
+		} else {
+			update();
+		}
 
 	}
 
@@ -227,13 +225,9 @@ public class PlayerActivity extends Activity {
 	private void update() {
 
 		String result;
-
-		// Get a list of players
-		result = (String) telnet.parse(telnet
-						.readWrite("'\\n'.join(getGame().getPlayers().keys())"));
-
-		String[] playerArray = result.split("\\\\n");
-		players = new ArrayList<String>(Arrays.asList(playerArray));
+		ArrayList<String> players;
+		
+		players = telnet.parseJSON(telnet.readWrite("print json.dumps(getGame().getPlayers().keys())"));
 		Collections.sort(players, String.CASE_INSENSITIVE_ORDER);
 
 		if (players.size() == 0) {
@@ -258,7 +252,7 @@ public class PlayerActivity extends Activity {
 		Resources res = getResources();
 
 		// This could very easily lead to race conditions
-		telnet.send("player = getGame().getPlayers()[\"" + currentPlayer + "\"]");
+		telnet.send("player = getGame().getPlayers()[" + currentPlayer() + "]");
 
 		playerName.setText(currentPlayer);
 
@@ -418,6 +412,12 @@ public class PlayerActivity extends Activity {
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		currentPlayer = savedInstanceState.getString("currentPlayer");
+	}
+	
+	private String currentPlayer() {
+		String player = currentPlayer;
+		player = player.replace("\"", "\\\"");
+		return "\"" + player + "\"";
 	}
 
 }

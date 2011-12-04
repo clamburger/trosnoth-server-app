@@ -51,7 +51,14 @@ public class ScreenSelectorActivity extends Activity {
 		});
 		
 		settings = (ImageButton) findViewById(R.id.buttonSettings);
-		settings.setEnabled(false);
+		settings.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ScreenSelectorActivity.this,
+								ServerSettingsActivity.class);
+				startActivity(intent);
+			}
+		});
+		
 		
 		players = (ImageButton) findViewById(R.id.buttonPlayers);
 		players.setOnClickListener(new OnClickListener() {
@@ -67,7 +74,7 @@ public class ScreenSelectorActivity extends Activity {
 		
 		// Doing this here means we don't have to do it anywhere else
 		telnet = MainMenuActivity.telnet;
-		telnet.send("game = getGame()");
+		telnet.send("import json");
 		
 	}
 

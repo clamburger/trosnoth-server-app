@@ -38,6 +38,7 @@
         <activity android:name=".GameStateActivity" android:label="@string/menu_title"></activity>
         <activity android:name=".ScreenSelectorActivity" android:label="@string/menu_title"></activity>
         <activity android:name=".PlayerActivity" android:label="@string/menu_title"></activity>
+        <activity android:label="Server Settings" android:name=".ServerSettingsActivity"></activity>
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />
