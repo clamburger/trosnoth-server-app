@@ -28,7 +28,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:text="@string/menu_title"
+        android:text="@string/app_name_long"
         android:textColor="#ffffff"
         android:textSize="35sp" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:inputType="phone"
-            android:width="200sp" android:hint="Server IP" android:text="192.168.1.10" android:typeface="monospace"/>
+            android:width="200sp" android:hint="Server IP" android:typeface="monospace"/>
 
         <TextView
             android:id="@+id/textPassword"
@@ -70,7 +70,7 @@
             android:gravity="center"
             android:hint="Password"
             android:inputType="number"
-            android:width="200sp" android:text="12345" android:typeface="monospace"/>
+            android:width="200sp" android:typeface="monospace"/>
     </LinearLayout>
 
     <Button

@@ -29,7 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/menu_title"
+        android:text="@string/app_name_long"
         android:textColor="#ffffff"
         android:textSize="35sp" />
 
@@ -55,7 +55,6 @@
             android:gravity="center"
             android:hint="Server IP"
             android:inputType="phone"
-            android:text="192.168.1.10"
             android:typeface="monospace"
             android:width="180sp" />
 
@@ -73,7 +72,6 @@
             android:gravity="center"
             android:hint="Password"
             android:inputType="number"
-            android:text="12345"
             android:typeface="monospace"
             android:width="180sp" />
 

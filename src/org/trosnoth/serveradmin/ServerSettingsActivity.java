@@ -22,9 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.InputFilters;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -35,15 +35,12 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.EditText;
 
 public class ServerSettingsActivity extends PreferenceActivity implements
 				OnSharedPreferenceChangeListener {
 
-	private static final String LOGTAG = "Trosnoth Settings";
+	private static final String LOGTAG = "ServerSettings";
 
 	AutomatedTelnetClient telnet;
 	
@@ -52,10 +49,6 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 	private ServerSettings pref;
 
 	public class ServerSettings implements SharedPreferences {
-
-		public ServerSettings() {
-			Log.i(LOGTAG, "ServerSettings initialised.");
-		}
 		
 		public void update() {
 		
@@ -187,7 +180,7 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		telnet = MainMenuActivity.telnet;
+		telnet = ConnectionActivity.telnet;
 		telnet.send("game = getGame()");
 
 		pref = new ServerSettings();
@@ -227,11 +220,11 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 		Runnable looper = new Runnable() {
 			public void run() {
 				update();				
-				mHandler.postDelayed(this, MainMenuActivity.UPDATE_FREQ);
+				mHandler.postDelayed(this, ConnectionActivity.UPDATE_FREQ);
 			}
 		};
 
-		if (MainMenuActivity.automaticUpdate) {
+		if (ConnectionActivity.automaticUpdate) {
 			mHandler.removeCallbacks(looper);
 			mHandler.post(looper);
 		} else {
@@ -239,7 +232,7 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 		}
 	}
 	
-	private void update() {
+	public void update() {
 		pref.update();
 		updateSummaries();
 	}
@@ -270,29 +263,6 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 		setting = findPreference("gameSpeed");
 		setting.setSummary("Current speed: " + pref.getString("gameSpeed", "unknown") + "x");
 	
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.standard, menu);
-	    return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	  switch (item.getItemId()) {
-		  case R.id.refresh:
-		    update();
-		    return true;
-		  case R.id.disconnect:
-			  startActivity(new Intent(this, MainMenuActivity.class)
-			  .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-			  .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
-		    return true;
-		  default:
-		    return super.onOptionsItemSelected(item);
-	  }
 	}
 
 }

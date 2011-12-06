@@ -15,9 +15,13 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
+import greendroid.app.GDActivity;
+
 import java.util.ArrayList;
 
-import android.app.Activity;
+import org.trosnoth.serveradmin.R;
+import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -30,9 +34,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class GameSelectorActivity extends Activity {
+public class GameSelectorActivity extends GDActivity {
 	
-	protected static final String LOGTAG = "Trosnoth";
+	protected static final String LOGTAG = "GameSelector";
 
 	AutomatedTelnetClient telnet;
 	
@@ -50,7 +54,7 @@ public class GameSelectorActivity extends Activity {
         
         list = (ListView) findViewById(R.id.listGames);
         createGame = (Button) findViewById(R.id.buttonCreate);
-        telnet = MainMenuActivity.telnet;
+        telnet = ConnectionActivity.telnet;
         
         createGame.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {

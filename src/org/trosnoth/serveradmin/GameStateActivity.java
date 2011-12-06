@@ -15,22 +15,22 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
+import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.LoaderActionBarItem;
+
+import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.InputFilters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -41,9 +41,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameStateActivity extends Activity {
+public class GameStateActivity extends GDActivity {
 
-	private static final String LOGTAG = "Trosnoth GameState";
+	private static final String LOGTAG = "GameState";
 
 	AutomatedTelnetClient telnet;
 
@@ -65,7 +65,9 @@ public class GameStateActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.game_state);
+		setActionBarContentView(R.layout.game_state);
+		
+		getActionBar().addItem(ActionBarItem.Type.Refresh);
 
 		startGame = (Button) findViewById(R.id.buttonStartGame);
 		endGame = (Button) findViewById(R.id.buttonEndGame);
@@ -119,18 +121,18 @@ public class GameStateActivity extends Activity {
 		skipCountdown.setEnabled(false);
 		winner.setEnabled(false);
 
-		telnet = MainMenuActivity.telnet;
+		telnet = ConnectionActivity.telnet;
 		telnet.send("game = getGame()");
 
 		// Update every 5 seconds
 		Runnable looper = new Runnable() {
 			public void run() {
 				update();				
-				mHandler.postDelayed(this, MainMenuActivity.UPDATE_FREQ);
+				mHandler.postDelayed(this, ConnectionActivity.UPDATE_FREQ);
 			}
 		};
 
-		if (MainMenuActivity.automaticUpdate) {
+		if (ConnectionActivity.automaticUpdate) {
 			mHandler.removeCallbacks(looper);
 			mHandler.post(looper);
 		} else {
@@ -324,25 +326,15 @@ public class GameStateActivity extends Activity {
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.standard, menu);
-	    return true;
+	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+		switch (position) {
+		case 0:
+			update();
+			((LoaderActionBarItem) item).setLoading(false);
+			return true;
+		default:
+			return false;
+		}
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	  switch (item.getItemId()) {
-		  case R.id.refresh:
-		    update();
-		    return true;
-		  case R.id.disconnect:
-			  startActivity(new Intent(this, MainMenuActivity.class)
-			  .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-			  .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
-		    return true;
-		  default:
-		    return super.onOptionsItemSelected(item);
-	  }
-	}
+
 }

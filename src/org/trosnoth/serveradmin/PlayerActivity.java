@@ -15,25 +15,25 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
+import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.LoaderActionBarItem;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import android.app.Activity;
+import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
+
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -47,9 +47,9 @@ import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
-public class PlayerActivity extends Activity {
+public class PlayerActivity extends GDActivity {
 
-	private static final String LOGTAG = "Trosnoth Players";
+	private static final String LOGTAG = "Players";
 
 	AutomatedTelnetClient telnet;
 
@@ -88,7 +88,9 @@ public class PlayerActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.players);
+		setActionBarContentView(R.layout.players);
+		
+		getActionBar().addItem(ActionBarItem.Type.Refresh);
 
 		for (int i = 0; i < upgrades.length; i++) {
 			upgradeMapping.put(upgradeCodes[i], upgrades[i]);
@@ -169,17 +171,17 @@ public class PlayerActivity extends Activity {
 			}
 		});
 
-		telnet = MainMenuActivity.telnet;
+		telnet = ConnectionActivity.telnet;
 
 		// Update every 5 seconds
 		Runnable looper = new Runnable() {
 			public void run() {
 				update();				
-				mHandler.postDelayed(this, MainMenuActivity.UPDATE_FREQ);
+				mHandler.postDelayed(this, ConnectionActivity.UPDATE_FREQ);
 			}
 		};
 
-		if (MainMenuActivity.automaticUpdate) {
+		if (ConnectionActivity.automaticUpdate) {
 			mHandler.removeCallbacks(looper);
 			mHandler.post(looper);
 		} else {
@@ -338,10 +340,6 @@ public class PlayerActivity extends Activity {
 
 		public ImageAdapter(Context c) {
 			mContext = c;
-			TypedArray attr = mContext.obtainStyledAttributes(R.styleable.upgrade_gallery);
-			mGalleryItemBackground = attr.getResourceId(
-							R.styleable.upgrade_gallery_android_galleryItemBackground, 0);
-			attr.recycle();
 		}
 
 		public int getCount() {
@@ -360,9 +358,6 @@ public class PlayerActivity extends Activity {
 			ImageView imageView = new ImageView(mContext);
 
 			imageView.setImageResource(mImageIds[position]);
-			// imageView.setLayoutParams(new Gallery.LayoutParams(-2, -2));
-			// imageView.setScaleType(ImageView.ScaleType.CENTER);
-			// imageView.setBackgroundResource(mGalleryItemBackground);
 			if (position <= 6) {
 				imageView.setBackgroundColor(getResources().getColor(android.R.color.white));
 			} else {
@@ -374,31 +369,6 @@ public class PlayerActivity extends Activity {
 			borderImg.setBackgroundColor(0xff000000);
 			borderImg.addView(imageView);
 			return borderImg;
-
-			// return imageView;
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.standard, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.refresh:
-			update();
-			return true;
-		case R.id.disconnect:
-			startActivity(new Intent(this, MainMenuActivity.class).setFlags(
-							Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(
-							Intent.FLAG_ACTIVITY_SINGLE_TOP));
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -418,6 +388,18 @@ public class PlayerActivity extends Activity {
 		String player = currentPlayer;
 		player = player.replace("\"", "\\\"");
 		return "\"" + player + "\"";
+	}
+	
+	@Override
+	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+		switch (position) {
+		case 0:
+			update();
+			((LoaderActionBarItem) item).setLoading(false);
+			return true;
+		default:
+			return false;
+		}
 	}
 
 }
