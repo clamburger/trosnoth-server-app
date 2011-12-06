@@ -39,10 +39,8 @@
         <activity android:label="@string/activity_game_state" android:name=".GameStateActivity"></activity>
         <activity android:label="@string/activity_players" android:name=".PlayerActivity"></activity>
         <activity android:label="@string/activity_server_settings" android:name=".ServerSettingsActivity"></activity>
-        <activity android:label="@string/activity_information" android:name=".InformationActivity"></activity>
-        <activity android:label="@string/activity_licenses" android:name=".LicenseActivity"></activity>
+        <activity android:label="@string/app_name_long" android:name=".InformationActivity"></activity>
         
-        <activity android:label="@string/app_name_long" android:name=".InformationContainer"></activity>
         <activity android:label="@string/activity_server_settings" android:name="ServerSettingsContainer"></activity>
         
     </application>

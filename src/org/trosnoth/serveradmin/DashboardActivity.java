@@ -97,7 +97,7 @@ public class DashboardActivity extends GDActivity {
 	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
 		switch (position) {
 		case 0:
-			Intent intent = new Intent(DashboardActivity.this, InformationContainer.class);
+			Intent intent = new Intent(DashboardActivity.this, InformationActivity.class);
 			startActivity(intent);
 			return true;
 		case 1:
