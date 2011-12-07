@@ -60,12 +60,14 @@ public class ConnectionActivity extends Activity {
 	public static String serverIP;
 	public static Boolean automaticUpdate;
 
-	private String errorMessage = "An error occurred while displaying this error.";
+	private String errorMessage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_menu);
+		setContentView(R.layout.connection);
+		
+		errorMessage = getApplicationContext().getString(R.string.connection_error_error);
 
 		buttonConnect = (Button) findViewById(R.id.buttonConnect);
 		editServerIP = (EditText) findViewById(R.id.editServerIP);
@@ -118,7 +120,7 @@ public class ConnectionActivity extends Activity {
 
 	public void errorMessage(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(message).setPositiveButton("Okay",
+		builder.setMessage(message).setPositiveButton(R.string.okay,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
@@ -138,19 +140,17 @@ public class ConnectionActivity extends Activity {
 		// Doesn't work; too much effort for too little reward at the moment
 		// dialog = ProgressDialog.show(this, "", "Connecting...", true, true);
 
+		Context context = getApplicationContext();
+		
 		try {
 			telnet = new AutomatedTelnetClient(ip, port, password);
 			// dialog.hide();
 		} catch (ConnectException e) {
-			errorMessage = "Connection refused. Make sure you have network access and have entered the correct IP.\n"
-							+ e.getClass().getCanonicalName();
+			errorMessage = context.getString(R.string.connection_error_refused, e.getClass().getCanonicalName());
 		} catch (SocketTimeoutException e) {
-			errorMessage = "The connection timed out. There may not be a Trosnoth server running at the specified IP.\n"
-							+ e.getClass().getCanonicalName();
+			errorMessage = context.getString(R.string.connection_error_timeout, e.getClass().getCanonicalName());
 		} catch (IOException e) {
-			errorMessage = "The server at " + ip + " could not be contacted.\n"
-							+ "Ensure you entered the IP correctly.\n"
-							+ e.getClass().getCanonicalName();
+			errorMessage = context.getString(R.string.connection_error_io, ip, e.getClass().getCanonicalName());
 		}
 
 		if (telnet == null) {
@@ -160,7 +160,7 @@ public class ConnectionActivity extends Activity {
 		}
 
 		if (!telnet.initalise()) {
-			errorMessage = "Incorrect password.";
+			errorMessage = context.getString(R.string.connection_error_password);
 			showDialog(666);
 			return;
 		}
@@ -187,22 +187,20 @@ public class ConnectionActivity extends Activity {
 		Dialog dialog;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		if (id == 1337) {
-			builder.setMessage(
-							"There are currently no games running on this server.\n"
-											+ "Would you like to create one?")
-							.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			builder.setMessage(R.string.connection_no_games)
+							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int id) {
 									dialog.cancel();
 									telnet.send("authfactory.createGame()");
 									nextMenu();
 								}
-							}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+							}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int which) {
 									dialog.cancel();
 								}
 							});
 		} else if (id == 666) {
-			builder.setMessage(errorMessage).setPositiveButton("Okay",
+			builder.setMessage(errorMessage).setPositiveButton(R.string.okay,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int id) {
 									dialog.cancel();

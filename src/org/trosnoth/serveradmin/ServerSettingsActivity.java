@@ -25,6 +25,7 @@ import java.util.Map;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.InputFilters;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -43,30 +44,30 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 	private static final String LOGTAG = "ServerSettings";
 
 	AutomatedTelnetClient telnet;
-	
+
 	ArrayList<String> gameModes;
 
 	private ServerSettings pref;
 
 	public class ServerSettings implements SharedPreferences {
-		
+
 		public void update() {
-		
+
 			String gameSpeed = telnet.readWrite("float(getGame().getSpeed())");
-			
+
 			/* For some mysterious reason, just doing it as above doesn't work. */
-			String gameMode = (String)telnet.parse(telnet.readWrite("getGame().getGameMode()"));
-			
-			//String playersPerTeam = null;
-			//String playersTotal = null;
-			
+			String gameMode = (String) telnet.parse(telnet.readWrite("getGame().getGameMode()"));
+
+			// String playersPerTeam = null;
+			// String playersTotal = null;
+
 			values.put("gameSpeed", gameSpeed);
 			values.put("gameMode", gameMode);
-			//values.put("playersPerTeam" , playersPerTeam);
-			//values.put("playersTotal", playersTotal);
-		
+			// values.put("playersPerTeam" , playersPerTeam);
+			// values.put("playersTotal", playersTotal);
+
 		}
-		
+
 		protected Map<String, String> values = new HashMap<String, String>();
 
 		public boolean contains(String key) {
@@ -149,7 +150,7 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 			public android.content.SharedPreferences.Editor putString(String key, String value) {
 				Log.i(LOGTAG, "Updating " + key + " with " + value);
 				values.put(key, value);
-				
+
 				if (key.equals("gameMode")) {
 					telnet.send("getGame().setGameMode(\"" + value + "\")");
 				} else if (key.equals("gameSpeed")) {
@@ -157,11 +158,11 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 				} else if (key.equals("playersPerTeam")) {
 					telnet.send("getGame().setPlayerLimits(" + value + ")");
 				}
-				
+
 				for (OnSharedPreferenceChangeListener listener : listeners) {
 					listener.onSharedPreferenceChanged(ServerSettings.this, key);
 				}
-				
+
 				return this;
 			}
 
@@ -173,7 +174,7 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 		}
 
 	}
-	
+
 	private Handler mHandler = new Handler();
 
 	@Override
@@ -197,29 +198,29 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 
 		gameModesPref.setEntries(strArray);
 		gameModesPref.setEntryValues(strArray);
-		
+
 		EditTextPreference setting;
 		EditText settingText;
-		
+
 		setting = (EditTextPreference) findPreference("playersPerTeam");
 		settingText = setting.getEditText();
 		settingText.setInputType(InputType.TYPE_CLASS_NUMBER);
 		settingText.setFilters(InputFilters.integerFilter(255));
-		
+
 		setting = (EditTextPreference) findPreference("playersTotal");
 		settingText = setting.getEditText();
 		settingText.setInputType(InputType.TYPE_CLASS_NUMBER);
 		settingText.setFilters(InputFilters.integerFilter(255));
-		
+
 		setting = (EditTextPreference) findPreference("gameSpeed");
 		settingText = setting.getEditText();
 		settingText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		
+
 		// Update every 5 seconds
-		
+
 		Runnable looper = new Runnable() {
 			public void run() {
-				update();				
+				update();
 				mHandler.postDelayed(this, ConnectionActivity.UPDATE_FREQ);
 			}
 		};
@@ -231,7 +232,7 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 			update();
 		}
 	}
-	
+
 	public void update() {
 		pref.update();
 		updateSummaries();
@@ -245,24 +246,31 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		updateSummaries();
 	}
-	
+
 	public void updateSummaries() {
 		Preference setting;
-		
+
+		Context context = getApplicationContext();
+
 		setting = findPreference("playersPerTeam");
-		//setting.setSummary("Current limit: " + pref.getString("playersPerTeam", "unknown"));
-		setting.setSummary("This information is not available from the server");
-		
+		// setting.setSummary(context.getString(R.string.settings_limit,
+		// pref.getString("playersPerTeam",
+		// context.getString(R.string.unknown))));
+		setting.setSummary(R.string.settings_not_available);
+
 		setting = findPreference("playersTotal");
-		//setting.setSummary("Current limit: " + pref.getString("playersTotal", "unknown"));
-		setting.setSummary("Not yet implemented");
-		
+		// setting.setSummary(context.getString(R.string.settings_limit,
+		// pref.getString("playersTotal",
+		// context.getString(R.string.unknown))));
+		setting.setSummary(R.string.not_yet_implemented);
+
 		setting = findPreference("gameMode");
-		setting.setSummary(pref.getString("gameMode", "Unknown"));
-		
+		setting.setSummary(pref.getString("gameMode", context.getString(R.string.unknown)));
+
 		setting = findPreference("gameSpeed");
-		setting.setSummary("Current speed: " + pref.getString("gameSpeed", "unknown") + "x");
-	
+		setting.setSummary(context.getString(R.string.settings_speed,
+						pref.getString("gameSpeed", "?")));
+
 	}
 
 }

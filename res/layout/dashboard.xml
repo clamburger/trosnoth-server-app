@@ -21,22 +21,22 @@
 
     <Button android:id="@+id/buttonGameState"
         style="@style/DashboardButton"
-        android:text="Game State"
+        android:text="@string/activity_game_state"
         android:drawableTop="@drawable/home_btn_announcements_default" />
     
     <Button android:id="@+id/buttonServerSettings"
         style="@style/DashboardButton"
-        android:text="Server Settings"
+        android:text="@string/activity_server_settings"
         android:drawableTop="@drawable/home_btn_sessions_default" />
     
     <Button android:id="@+id/buttonPlayers"
         style="@style/DashboardButton"
-        android:text="Players"
+        android:text="@string/activity_players"
         android:drawableTop="@drawable/home_btn_vendors_default" />
     
     <Button android:id="@+id/buttonTeams"
         style="@style/DashboardButton"
-        android:text="Teams"
+        android:text="@string/activity_teams"
         android:drawableTop="@drawable/home_btn_starred_default" />
 
 </org.trosnoth.serveradmin.helpers.DashboardLayout>

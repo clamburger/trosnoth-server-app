@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5sp"
                     android:layout_marginTop="5sp"
-                    android:text="Loading..."
+                    android:text="@string/loading"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:visibility="invisible" />
             </RelativeLayout>
@@ -88,14 +88,14 @@
                 android:id="@+id/buttonKickPlayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kick Player"/>
+                android:text="@string/players_kick"/>
 
             <Button
                 android:id="@+id/buttonGiveUpgrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="Give Selected Upgrade" />
+                android:text="@string/players_give_upgrade" />
 
             <Button
                 android:id="@+id/buttonRemoveUpgrade"
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/buttonGiveUpgrade"
-                android:text="Remove Upgrade" />
+                android:text="@string/players_remove_upgrade" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -195,7 +195,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="5sp"
             android:layout_marginTop="5sp"
-            android:text="@string/upgrade_instruction"
+            android:text="@string/players_selected_upgrade"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Gallery

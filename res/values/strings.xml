@@ -16,9 +16,11 @@
 -->
 <resources>
 
+    <!-- Application name -->
     <string name="app_name_short">Trosnoth Admin</string>
     <string name="app_name_long">Trosnoth Server Admin Console</string>
     
+    <!-- Activity names -->
     <string name="activity_information">Information</string>
     <string name="activity_game_selector">Game Selector</string>
     <string name="activity_game_state">Game State</string>
@@ -26,27 +28,118 @@
     <string name="activity_players">Players</string>
     <string name="activity_teams">Teams</string>
     
-    <string name="start_game">Start game</string>
-    <string name="start_game_countdown">Skip countdown</string>
-    <string name="end_game">End game - Draw</string>
-    <string name="end_game_blue">End game - Blue wins</string>
-    <string name="end_game_red">End game - Red wins</string>
-    <string name="reset_game">Reset game (go to lobby)</string>
-    <string name="change_time">Change remaining time</string>
-    <string name="select_winner">Select winner</string>
-    <string name="upgrade_instruction">Selected upgrade:</string>
+    <!-- Connection screen -->
+    <string name="connection_error_error">An error occurred while displaying this error.</string>
+    <string name="connection_error_refused">Connection refused. Make sure you have network access and have entered the correct IP.\n%s</string>
+    <string name="connection_error_timeout">The connection timed out. There may not be a Trosnoth server running at the specified IP.\n%s</string>
+    <string name="connection_error_io">The server at %1$s could not be contacted.\nEnsure you entered the IP correctly.\n%2$s</string>
+    <string name="connection_error_password">Incorrect password.</string>
+    <string name="connection_no_games">There are currently no games running on this server.\nWould you like to create one?</string>
     
-    <string name="information">This application is open source software and has been released under the Apache License, Version 2.0.
-        For source code and other information relating to this app, visit the Google Code page for this project:</string>
-    <string name="information_url">http://code.google.com/p/trosnoth-server-app</string>
-    <string name="information_greendroid">This application couldn\'t be possible with GreenDroid, a developer library that
-        greatly assists in implementing Android design patters. For more information, check out the official website:</string>
-    <string name="information_greendroid_url">http://greendroid.cyrilmottier.com/</string>
-
-    <string-array name="end_game_winners">
+    <string name="connection_server">Server IP</string>
+    <string name="connection_password">Password</string>
+    <string name="connection_submit">Connect</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_connected">Connected to %s</string>
+    <string name="dashboard_disconnect">Disconnect</string>
+    
+    <!-- Game State screen -->
+    <string name="game_state_pregame">Pre-game</string>
+    <string name="game_state_lobby">Lobby</string>
+    <string name="game_state_starting">Starting...</string>
+    <string name="game_state_in_progress">Active</string>
+    <string name="game_state_ended">Game over</string>
+    <string name="game_state_draw">It\'s a draw!</string>
+    <string name="game_state_blue_wins">Blue wins!</string>
+    <string name="game_state_red_wins">Red wins!</string>
+    <string name="game_state_unknown">Unknown</string>
+    <string name="game_state_adjust_time">Enter the new time remaining</string>
+    
+    <string name="game_state_header">Game state:</string>
+    <string name="game_state_time_left">Time remaining:</string>
+    <string name="game_state_start">Start game</string>
+    <string name="game_state_countdown">Skip countdown</string>
+    <string name="game_state_end">End game</string>
+    <string name="game_state_reset">Reset game (go to lobby)</string>
+    <string name="game_state_change_time">Change remaining time</string>
+    <string name="game_state_winner_prompt">Select winner</string>
+    <string name="game_state_upgrade">Selected upgrade:</string>
+    <string name="game_state_blue_zones">Blue zones:</string>
+    <string name="game_state_red_zones">Red zones:</string>
+    <string name="game_state_netural_zones">Neutral zones:</string>
+    <string-array name="game_state_winners">
         <item>Draw</item>
         <item>Blue team wins</item>
         <item>Red team wins</item>
     </string-array>
+    
+    <!-- Information screen -->
+    <string name="information">This application is open source software and has been released under the Apache License, Version 2.0.
+        For source code and other information relating to this app, visit the Google Code page for this project:</string>
+    <string name="information_url">http://code.google.com/p/trosnoth-server-app</string>
+    <string name="information_greendroid">This application couldn\'t be possible without GreenDroid, a developer library that
+        greatly assists in implementing Android design patters. For more information, check out the official website:</string>
+    <string name="information_greendroid_url">http://greendroid.cyrilmottier.com/</string>
+    
+    <!-- Player screen -->
+    <string name="players_none_selected">No player selected</string>
+    <string name="players_select_player">Tap the action bar button to select a player</string>
+    <string name="players_no_players">There are currently no players on this server</string>
+    <string name="players_bot">Bot</string>
+    <string name="players_no_username">Not authenticated</string>
+    <string name="players_dead">Dead</string>
+    <string name="players_alive">Alive</string>
+    <string name="players_1_star">1 star</string>
+    <string name="players_stars">%d stars</string>
+    <string name="players_selected_upgrade">Selected upgrade:</string>
+    <string name="players_no_upgrade">No upgrade</string>
+    
+    <string name="players_kick">Kick player</string>
+    <string name="players_give_upgrade">Give selected upgrade</string>
+    <string name="players_remove_upgrade">Remove upgrade</string>
+    
+    <!-- Server settings screen -->
+    <string name="settings_limit_header">Player limits</string>
+    <string name="settings_limit_per_team">Players per team</string>
+    <string name="settings_limit_server">Players in server</string>
+    <string name="settings_gameplay_header">Gameplay</string>
+    <string name="settings_gameplay_mode">Game mode</string>
+    <string name="settings_gameplay_speed">Game speed</string>
+        
+    <string name="settings_not_available">This information is not available from the server</string>
+    <string name="settings_limit">Current limit: %s</string>
+    <string name="settings_speed">Current speed: %sx</string>
+        
+    <!-- Teams -->
+    <string name="teams_blue">Blue team</string>
+    <string name="teams_red">Red team</string>
+    <string name="teams_none">Rogue</string>
+    
+    <!-- Upgrades -->
+    <string name="upgrade_machine_gun">Machine Gun</string>
+    <string name="upgrade_shield">Shield</string>
+    <string name="upgrade_minimap_disruption">Minimap Disruption</string>
+    <string name="upgrade_ninja">Ninja</string>
+    <string name="upgrade_grenade">Grenade</string>
+    <string name="upgrade_ricochet">Ricochet</string>
+    <string name="upgrade_shoxwave">Shoxwave</string>
+    <string name="upgrade_turret">Turret</string>
+    <string name="upgrade_phase_shift">Phase Shift</string>
+    <string name="upgrade_respawn_freezer">Respawn Freezer</string>
+    <string name="upgrade_directator">Directator</string>
+    
+    <!-- Generics -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="okay">Okay</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="mins">mins</string>
+    <string name="secs">secs</string>
+    <string name="loading">Loading...</string>
+    <string name="unknown">Unknown</string>
+    
+    <string name="not_yet_implemented">Not yet implemented</string>
 
 </resources>

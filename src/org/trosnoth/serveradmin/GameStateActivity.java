@@ -96,7 +96,7 @@ public class GameStateActivity extends GDActivity {
 
 		resetGame.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "Not yet implemented.", Toast.LENGTH_LONG)
+				Toast.makeText(getApplicationContext(), R.string.not_yet_implemented, Toast.LENGTH_LONG)
 								.show();
 
 			}
@@ -158,38 +158,38 @@ public class GameStateActivity extends GDActivity {
 		Boolean end = false;
 		
 		if (result.equals("PreGame")) {
-			gameState.setText("Pre-game");
+			gameState.setText(R.string.game_state_pregame);
 			gameState.setTextColor(res.getColor(R.color.light_yellow));
 			start = true;
 		} else if (result.equals("Lobby")) {
-			gameState.setText("Lobby");
+			gameState.setText(R.string.game_state_lobby);
 			gameState.setTextColor(res.getColor(R.color.light_yellow));
 			start = true;
 		} else if (result.equals("Starting")) {
-			gameState.setText("Starting...");
+			gameState.setText(R.string.game_state_starting);
 			gameState.setTextColor(res.getColor(R.color.light_yellow));
 		} else if (result.equals("InProgress")) {
-			gameState.setText("Active");
+			gameState.setText(R.string.game_state_in_progress);
 			gameState.setTextColor(res.getColor(R.color.light_green));
 			end = true;
 		} else if (result.equals("Ended")) {
 			
 			result = telnet.readWrite("game.getWinningTeam()");
 			if (result.length() == 0) {
-				gameState.setText("It's a draw!");
+				gameState.setText(R.string.game_state_draw);
 				gameState.setTextColor(res.getColor(R.color.neutral_text));
 			} else {
 				result = (String) telnet.parse(result);
 				if (result.equals("A")) {
-					gameState.setText("Blue wins!");
+					gameState.setText(R.string.game_state_blue_wins);
 					gameState.setTextColor(res.getColor(R.color.blue_text));
 				} else {
-					gameState.setText("Red wins!");
+					gameState.setText(R.string.game_state_red_wins);
 					gameState.setTextColor(res.getColor(R.color.red_text));
 				}
 			}
 		} else {
-			gameState.setText("Unknown");
+			gameState.setText(R.string.game_state_unknown);
 			gameState.setTextColor(res.getColor(R.color.disabled));
 		}
 
@@ -277,8 +277,8 @@ public class GameStateActivity extends GDActivity {
 			builder = new AlertDialog.Builder(mContext);
 			builder.setView(layout);
 			alertDialog = builder.create();
-			alertDialog.setTitle("Enter the new time remaining");
-			alertDialog.setButton(-1, "Save",
+			alertDialog.setTitle(R.string.game_state_adjust_time);
+			alertDialog.setButton(-1, getApplicationContext().getString(R.string.save),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						
@@ -314,7 +314,7 @@ public class GameStateActivity extends GDActivity {
 						update();
 					}
 				});
-			alertDialog.setButton(-2, "Cancel",
+			alertDialog.setButton(-2, getApplicationContext().getString(R.string.cancel),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();

@@ -26,7 +26,6 @@ import java.util.HashMap;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -74,11 +73,15 @@ public class PlayerActivity extends GDActivity {
 	TextView selectedUpgrade;
 	RelativeLayout upgradePane;
 
-	String[] upgrades = { "Machine Gun", "Shield", "Minimap Disruption", "Ninja", "Grenade",
-			"Ricochet", "Shoxwave", "Turret", "Phase Shift", "Respawn Freezer", "Directator" };
+	int[] upgrades = { R.string.upgrade_machine_gun, R.string.upgrade_shield,
+					R.string.upgrade_minimap_disruption, R.string.upgrade_ninja,
+					R.string.upgrade_grenade, R.string.upgrade_ricochet,
+					R.string.upgrade_shoxwave, R.string.upgrade_turret,
+					R.string.upgrade_phase_shift, R.string.upgrade_respawn_freezer,
+					R.string.upgrade_directator };
 	String[] upgradeCodes = { "x", "s", "m", "n", "g", "r", "w", "t", "h", "f", "d" };
 
-	HashMap<String, String> upgradeMapping = new HashMap<String, String>();
+	HashMap<String, Integer> upgradeMapping = new HashMap<String, Integer>();
 
 	ArrayList<String> players;
 
@@ -90,6 +93,7 @@ public class PlayerActivity extends GDActivity {
 		super.onCreate(savedInstanceState);
 		setActionBarContentView(R.layout.players);
 		
+		getActionBar().addItem(ActionBarItem.Type.AllFriends); 
 		getActionBar().addItem(ActionBarItem.Type.Refresh);
 
 		for (int i = 0; i < upgrades.length; i++) {
@@ -131,7 +135,8 @@ public class PlayerActivity extends GDActivity {
 				int position = upgradeGallery.getSelectedItemPosition();
 				telnet.send("getGame().giveUpgrade(getGame().getPlayers()[" + currentPlayer()
 								+ "], \"" + upgradeCodes[position] + "\")");
-				Log.i(LOGTAG, "Giving upgrade (" + upgrades[position] + ") to " + currentPlayer);
+				Context context = getApplicationContext();
+				Log.i(LOGTAG, "Giving upgrade (" + context.getString(upgrades[position]) + ") to " + currentPlayer);
 				update();
 			}
 		});
@@ -195,12 +200,8 @@ public class PlayerActivity extends GDActivity {
 		upgradePane.setVisibility(View.INVISIBLE);
 		controlPanel.setVisibility(View.INVISIBLE);
 
-		playerName.setText("No player selected");
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			textUsername.setText("Drag the bar from the right to select a player");
-		} else {
-			textUsername.setText("Drag the bar from the bottom to select a player");
-		}
+		playerName.setText(R.string.players_none_selected);
+		textUsername.setText(R.string.players_select_player);
 
 		textTeam.setVisibility(View.INVISIBLE);
 		textAlive.setVisibility(View.INVISIBLE);
@@ -233,7 +234,7 @@ public class PlayerActivity extends GDActivity {
 		Collections.sort(players, String.CASE_INSENSITIVE_ORDER);
 
 		if (players.size() == 0) {
-			listHelper.setText("There are currently no players on this server.");
+			listHelper.setText(R.string.players_no_players);
 			playerList.setVisibility(View.INVISIBLE);
 			listHelper.setVisibility(View.VISIBLE);
 		} else {
@@ -263,9 +264,9 @@ public class PlayerActivity extends GDActivity {
 		if (result.length() == 0) {
 			Boolean bot = (Boolean) telnet.parse(telnet.readWrite("player.bot"));
 			if (bot) {
-				textUsername.setText("Bot");
+				textUsername.setText(R.string.players_bot);
 			} else {
-				textUsername.setText("Not authenticated");
+				textUsername.setText(R.string.players_no_username);
 			}
 		} else {
 			result = (String) telnet.parse(telnet.readWrite("player.user.username"));
@@ -275,38 +276,38 @@ public class PlayerActivity extends GDActivity {
 		// Alive or dead
 		Boolean dead = (Boolean) telnet.parse(telnet.readWrite("player.dead"));
 		if (dead) {
-			textAlive.setText("Dead");
+			textAlive.setText(R.string.players_dead);
 			textAlive.setTextColor(res.getColor(R.color.light_red));
 			textStars.setVisibility(View.INVISIBLE);
 		} else {
-			textAlive.setText("Alive");
+			textAlive.setText(R.string.players_alive);
 			textAlive.setTextColor(res.getColor(R.color.light_green));
 			textStars.setVisibility(View.VISIBLE);
 
 			// Stars
 			int stars = Integer.valueOf(telnet.readWrite("player.stars"));
 			if (stars == 1) {
-				textStars.setText("1 star");
+				textStars.setText(R.string.players_1_star);
 			} else {
-				textStars.setText(stars + " stars");
+				textStars.setText(getApplicationContext().getString(R.string.players_stars, stars));
 			}
 		}
 
 		// Team
 		result = telnet.readWrite("player.team");
 		if (result.length() == 0) {
-			textTeam.setText("Rogue");
+			textTeam.setText(R.string.teams_none);
 			textTeam.setTextColor(res.getColor(R.color.neutral_text));
 		} else {
 			result = (String) telnet.parse(telnet.readWrite("player.team.id"));
 			if (result.equals("A")) {
-				textTeam.setText("Blue team");
+				textTeam.setText(R.string.teams_blue);
 				textTeam.setTextColor(res.getColor(R.color.blue_text));
 			} else if (result.equals("B")) {
-				textTeam.setText("Red team");
+				textTeam.setText(R.string.teams_red);
 				textTeam.setTextColor(res.getColor(R.color.red_text));
 			} else {
-				textTeam.setText("Unknown [" + result + "]");
+				textTeam.setText(R.string.unknown);
 				textTeam.setTextColor(res.getColor(android.R.color.white));
 			}
 		}
@@ -314,7 +315,7 @@ public class PlayerActivity extends GDActivity {
 		// Current upgrade
 		result = telnet.readWrite("player.upgrade");
 		if (result.length() == 0) {
-			currentUpgrade.setText("No upgrade");
+			currentUpgrade.setText(R.string.players_no_upgrade);
 			giveUpgrade.setEnabled(true);
 			removeUpgrade.setEnabled(false);
 		} else {
@@ -394,6 +395,9 @@ public class PlayerActivity extends GDActivity {
 	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
 		switch (position) {
 		case 0:
+			playerDrawer.animateToggle();
+			return true;
+		case 1:
 			update();
 			((LoaderActionBarItem) item).setLoading(false);
 			return true;

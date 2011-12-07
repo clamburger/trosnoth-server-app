@@ -51,13 +51,13 @@ public class DashboardActivity extends GDActivity {
 		TrosnothApplication appState = (TrosnothApplication)getApplicationContext();
 		String serverIP = appState.getServer();
 		if (serverIP != null) {
-			setTitle("Connected to " + serverIP);
+			setTitle(getString(R.string.dashboard_connected, serverIP));
 		}
 		
 		getActionBar().addItem(ActionBarItem.Type.Info);
 		
 		ActionBarItem item = getActionBar().newActionBarItem(NormalActionBarItem.class);
-		item.setDrawable(R.drawable.action_bar_disconnect).setContentDescription(R.string.gd_export);
+		item.setDrawable(R.drawable.action_bar_disconnect).setContentDescription(R.string.dashboard_disconnect);
 		addActionBarItem(item);
 		
 		gameState = (Button) findViewById(R.id.buttonGameState);

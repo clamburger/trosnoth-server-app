@@ -39,14 +39,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5sp"
-                android:text="Game state:"
+                android:text="@string/game_state_header"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/textGameState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading..."
+                android:text="@string/loading"
                 android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="@color/disabled"/>
         </LinearLayout>
 
@@ -65,7 +65,7 @@
                     android:id="@+id/buttonStartGame"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="@string/start_game" />
+                    android:text="@string/game_state_start" />
 
                 <CheckBox
                     android:id="@+id/checkSkipCountdown"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:text="@string/start_game_countdown" android:layout_marginRight="-20sp"/>
+                    android:text="@string/game_state_countdown" android:layout_marginRight="-20sp"/>
             </TableRow>
 
             <TableRow
@@ -86,14 +86,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="End game" />
+                    android:text="@string/game_state_end" />
 
                 <Spinner
                     android:id="@+id/spinnerWinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:entries="@array/end_game_winners" android:prompt="@string/select_winner"/>
+                    android:entries="@array/game_state_winners" android:prompt="@string/game_state_winner_prompt"/>
             </TableRow>
         </TableLayout>
 
@@ -102,7 +102,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="@string/reset_game" android:layout_alignParentBottom="true"/>
+            android:text="@string/game_state_reset" android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 
@@ -128,7 +128,7 @@
                 android:layout_below="@+id/linearLayout1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginRight="5sp"
-                android:text="Time remaining:"
+                android:text="@string/game_state_time_left"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -160,7 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="Blue zones:"
+                    android:text="@string/game_state_blue_zones"
                     android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"/>
 
                 <TextView
@@ -181,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="Neutral zones:"
+                    android:text="@string/game_state_netural_zones"
                     android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"/>
 
                 <TextView
@@ -203,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="Red zones:"
+                    android:text="@string/game_state_red_zones"
                     android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"/>
 
                 <TextView
@@ -222,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/layoutTime"
             android:layout_centerHorizontal="true"
-            android:text="@string/change_time" />
+            android:text="@string/game_state_change_time" />
 
     </RelativeLayout>
 

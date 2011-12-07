@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="25sp"
-        android:text="mins"
+        android:text="@string/mins"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -52,7 +52,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="secs"
+        android:text="@string/secs"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

@@ -15,15 +15,13 @@
   limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="Player Limits" android:key="playerLimits">
-		<EditTextPreference android:title="Players per team" android:key="playersPerTeam"/>
-		<EditTextPreference android:title="Players in server" android:key="playersTotal" android:enabled="false"/>
+	<PreferenceCategory android:title="@string/settings_limit_header" android:key="playerLimits">
+		<EditTextPreference android:title="@string/settings_limit_per_team" android:key="playersPerTeam"/>
+		<EditTextPreference android:title="@string/settings_limit_server" android:key="playersTotal" android:enabled="false"/>
 		
-		
-		
-	</PreferenceCategory><PreferenceCategory android:title="Gameplay" android:key="gameplay">
-		<ListPreference android:title="Game mode" android:key="gameMode"/>
-		<EditTextPreference android:key="gameSpeed" android:title="Game speed"/>
+	</PreferenceCategory><PreferenceCategory android:title="@string/settings_gameplay_header" android:key="gameplay">
+		<ListPreference android:title="@string/settings_gameplay_mode" android:key="gameMode"/>
+		<EditTextPreference android:key="gameSpeed" android:title="@string/settings_gameplay_speed"/>
 	</PreferenceCategory>
 	
 </PreferenceScreen>
