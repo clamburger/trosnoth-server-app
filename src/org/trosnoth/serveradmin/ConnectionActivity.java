@@ -26,10 +26,12 @@ import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -61,6 +63,8 @@ public class ConnectionActivity extends Activity {
 	public static Boolean automaticUpdate;
 
 	private String errorMessage;
+	
+	private ProgressDialog loader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -130,8 +134,6 @@ public class ConnectionActivity extends Activity {
 		alert.show();
 	}
 
-	// private ProgressDialog dialog;
-
 	public void connect(String ip, int port, String password) {
 
 		serverIP = ip;
@@ -139,42 +141,84 @@ public class ConnectionActivity extends Activity {
 
 		// Doesn't work; too much effort for too little reward at the moment
 		// dialog = ProgressDialog.show(this, "", "Connecting...", true, true);
-
-		Context context = getApplicationContext();
 		
-		try {
-			telnet = new AutomatedTelnetClient(ip, port, password);
-			// dialog.hide();
-		} catch (ConnectException e) {
-			errorMessage = context.getString(R.string.connection_error_refused, e.getClass().getCanonicalName());
-		} catch (SocketTimeoutException e) {
-			errorMessage = context.getString(R.string.connection_error_timeout, e.getClass().getCanonicalName());
-		} catch (IOException e) {
-			errorMessage = context.getString(R.string.connection_error_io, ip, e.getClass().getCanonicalName());
+		this.ip = ip;
+		this.port = port;
+		this.password = password;
+		
+		loader = ProgressDialog.show(this, "", "Connecting...", true);
+		new ConnectionTask().execute();
+	}
+	
+	private String ip;
+	private int port;
+	private String password;
+	
+	private class ConnectionTask extends AsyncTask<Void, Void, Integer> {
+				
+		protected Integer doInBackground(Void... params) {
+
+			Context context = getApplicationContext();
+			
+			try {
+				telnet = new AutomatedTelnetClient(ip, port, password);
+			} catch (ConnectException e) {
+				errorMessage = context.getString(R.string.connection_error_refused, e.getClass().getCanonicalName());
+			} catch (SocketTimeoutException e) {
+				errorMessage = context.getString(R.string.connection_error_timeout, e.getClass().getCanonicalName());
+			} catch (IOException e) {
+				errorMessage = context.getString(R.string.connection_error_io, ip, e.getClass().getCanonicalName());
+			}
+
+			if (telnet == null) {
+				Log.e(LOGTAG, "Connection error!");
+				return 666;
+			}
+
+			if (!telnet.initalise()) {
+				errorMessage = context.getString(R.string.connection_error_password);
+				return 666;
+			}
+
+			Log.i(LOGTAG, "Connection established.");
+
+			int gameInt = Integer.parseInt(telnet.readWrite("len(authfactory.servers)"));
+
+			if (gameInt == 0) {
+				return 1337;
+			}
+			
+			return 1;
+			
+		}
+		
+		protected void onPostExecute(Integer result) {
+			loader.dismiss();
+			Log.i(LOGTAG, "Result: " +result);
+			if (result == 1) {
+				nextMenu();
+			} else if (result == 1337) {
+				weWillBuildHeroes();
+			}
 		}
 
-		if (telnet == null) {
-			Log.e(LOGTAG, "Connection error!");
-			showDialog(666);
-			return;
-		}
-
-		if (!telnet.initalise()) {
-			errorMessage = context.getString(R.string.connection_error_password);
-			showDialog(666);
-			return;
-		}
-
-		Log.i(LOGTAG, "Connection established.");
-
-		int gameInt = Integer.parseInt(telnet.readWrite("len(authfactory.servers)"));
-
-		if (gameInt == 0) {
-			showDialog(1337);
-		} else {
-			nextMenu();
-		}
-
+	}
+	
+	public void weWillBuildHeroes() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.connection_no_games)
+		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				telnet.send("authfactory.createGame()");
+				nextMenu();
+			}
+		}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.create().show();
 	}
 
 	public void makeToast(String message) {

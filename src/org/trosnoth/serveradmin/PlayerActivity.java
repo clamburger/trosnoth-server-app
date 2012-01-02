@@ -15,16 +15,13 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
-import greendroid.app.GDActivity;
-import greendroid.widget.ActionBarItem;
-import greendroid.widget.LoaderActionBarItem;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -46,7 +43,7 @@ import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
-public class PlayerActivity extends GDActivity {
+public class PlayerActivity extends Activity {
 
 	private static final String LOGTAG = "Players";
 
@@ -91,10 +88,7 @@ public class PlayerActivity extends GDActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setActionBarContentView(R.layout.players);
-		
-		getActionBar().addItem(ActionBarItem.Type.AllFriends); 
-		getActionBar().addItem(ActionBarItem.Type.Refresh);
+		setContentView(R.layout.players);
 
 		for (int i = 0; i < upgrades.length; i++) {
 			upgradeMapping.put(upgradeCodes[i], upgrades[i]);
@@ -337,7 +331,7 @@ public class PlayerActivity extends GDActivity {
 				R.drawable.upgrade_minimap, R.drawable.upgrade_ninja, R.drawable.upgrade_grenade,
 				R.drawable.upgrade_ricochet, R.drawable.upgrade_shoxwave,
 				R.drawable.upgrade_turret, R.drawable.upgrade_phaseshift,
-				R.drawable.upgrade_respawnfreeze, R.drawable.upgrade_blank };
+				R.drawable.upgrade_freezer, R.drawable.upgrade_blank };
 
 		public ImageAdapter(Context c) {
 			mContext = c;
@@ -362,7 +356,7 @@ public class PlayerActivity extends GDActivity {
 			if (position <= 6) {
 				imageView.setBackgroundColor(getResources().getColor(android.R.color.white));
 			} else {
-				imageView.setBackgroundColor(0xffd7e33c);
+				imageView.setBackgroundColor(getResources().getColor(R.color.upgrade_special));
 			}
 
 			RelativeLayout borderImg = new RelativeLayout(mContext);
@@ -389,21 +383,6 @@ public class PlayerActivity extends GDActivity {
 		String player = currentPlayer;
 		player = player.replace("\"", "\\\"");
 		return "\"" + player + "\"";
-	}
-	
-	@Override
-	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
-		switch (position) {
-		case 0:
-			playerDrawer.animateToggle();
-			return true;
-		case 1:
-			update();
-			((LoaderActionBarItem) item).setLoading(false);
-			return true;
-		default:
-			return false;
-		}
 	}
 
 }

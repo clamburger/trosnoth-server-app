@@ -23,7 +23,7 @@
 
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name_short" android:name=".TrosnothApplication" android:theme="@style/Theme.Trosnoth">
+        android:label="@string/app_name_short" android:theme="@style/Theme.Trosnoth" android:name=".TrosnothApplication">
         <activity
             android:label="@string/app_name_short"
             android:name=".ConnectionActivity"
@@ -38,10 +38,9 @@
         <activity android:label="@string/activity_game_selector" android:name=".GameSelectorActivity"></activity>
         <activity android:label="@string/activity_game_state" android:name=".GameStateActivity"></activity>
         <activity android:label="@string/activity_players" android:name=".PlayerActivity"></activity>
+        <activity android:label="@string/activity_upgrades" android:name=".UpgradeActivity"></activity>
         <activity android:label="@string/activity_server_settings" android:name=".ServerSettingsActivity"></activity>
         <activity android:label="@string/app_name_long" android:name=".InformationActivity"></activity>
-        
-        <activity android:label="@string/activity_server_settings" android:name="ServerSettingsContainer"></activity>
         
     </application>
     

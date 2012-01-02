@@ -27,6 +27,8 @@
     <string name="activity_server_settings">Server Settings</string>
     <string name="activity_players">Players</string>
     <string name="activity_teams">Teams</string>
+    <string name="activity_upgrades">Upgrades</string>
+    <string name="activity_map_layout">Map Layout</string>
     
     <!-- Connection screen -->
     <string name="connection_error_error">An error occurred while displaying this error.</string>

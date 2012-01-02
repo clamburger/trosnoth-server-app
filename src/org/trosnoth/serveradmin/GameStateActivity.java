@@ -15,13 +15,10 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
-import greendroid.app.GDActivity;
-import greendroid.widget.ActionBarItem;
-import greendroid.widget.LoaderActionBarItem;
-
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.InputFilters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -41,7 +38,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameStateActivity extends GDActivity {
+public class GameStateActivity extends Activity {
 
 	private static final String LOGTAG = "GameState";
 
@@ -65,9 +62,7 @@ public class GameStateActivity extends GDActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setActionBarContentView(R.layout.game_state);
-		
-		getActionBar().addItem(ActionBarItem.Type.Refresh);
+		setContentView(R.layout.game_state);
 
 		startGame = (Button) findViewById(R.id.buttonStartGame);
 		endGame = (Button) findViewById(R.id.buttonEndGame);
@@ -323,18 +318,6 @@ public class GameStateActivity extends GDActivity {
 			return alertDialog;
 		}
 		return null;
-	}
-	
-	@Override
-	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
-		switch (position) {
-		case 0:
-			update();
-			((LoaderActionBarItem) item).setLoading(false);
-			return true;
-		default:
-			return false;
-		}
 	}
 
 }

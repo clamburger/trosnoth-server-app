@@ -32,11 +32,21 @@
     <Button android:id="@+id/buttonPlayers"
         style="@style/DashboardButton"
         android:text="@string/activity_players"
-        android:drawableTop="@drawable/home_btn_vendors_default" />
+        android:drawableTop="@drawable/home_btn_notes_default" />
     
     <Button android:id="@+id/buttonTeams"
         style="@style/DashboardButton"
         android:text="@string/activity_teams"
+        android:drawableTop="@drawable/home_btn_vendors_default" />
+    
+    <Button android:id="@+id/buttonUpgrades"
+        style="@style/DashboardButton"
+        android:text="@string/activity_upgrades"
         android:drawableTop="@drawable/home_btn_starred_default" />
+    
+    <Button android:id="@+id/buttonMapLayout"
+        style="@style/DashboardButton"
+        android:text="@string/activity_map_layout"
+        android:drawableTop="@drawable/home_btn_map_default" />
 
 </org.trosnoth.serveradmin.helpers.DashboardLayout>

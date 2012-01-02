@@ -42,5 +42,7 @@
     <!-- <color name="disabled">#666666</color> -->
     <color name="disabled">#DDDDDD</color>
     
+    <color name="upgrade_special">#D7E33C</color>
+    
     <color name="text_menu">#000060</color>
 </resources>

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.InputFilters;
@@ -171,6 +172,17 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 				return this;
 			}
 
+			public android.content.SharedPreferences.Editor putStringSet(String arg0,
+							Set<String> arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+		}
+
+		public Set<String> getStringSet(String arg0, Set<String> arg1) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

@@ -15,13 +15,12 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
-import greendroid.app.GDActivity;
-
 import java.util.ArrayList;
 
 import org.trosnoth.serveradmin.R;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -34,7 +33,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class GameSelectorActivity extends GDActivity {
+public class GameSelectorActivity extends Activity {
 	
 	protected static final String LOGTAG = "GameSelector";
 

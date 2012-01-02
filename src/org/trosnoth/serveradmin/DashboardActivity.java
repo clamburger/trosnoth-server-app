@@ -15,21 +15,17 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
-import greendroid.app.GDActivity;
-import greendroid.widget.ActionBar;
-import greendroid.widget.ActionBarItem;
-import greendroid.widget.NormalActionBarItem;
-
 import org.trosnoth.serveradmin.R;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class DashboardActivity extends GDActivity {
+public class DashboardActivity extends Activity {
 
 	AutomatedTelnetClient telnet;
 
@@ -37,29 +33,20 @@ public class DashboardActivity extends GDActivity {
 	Button players;
 	Button teams;
 	Button settings;
-
-	public DashboardActivity() {
-		// Removes the home button
-		super(ActionBar.Type.Empty);
-	}
+	Button upgrades;
+	Button mapLayout;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setActionBarContentView(R.layout.dashboard);
+		setContentView(R.layout.dashboard);
 
 		TrosnothApplication appState = (TrosnothApplication)getApplicationContext();
 		String serverIP = appState.getServer();
 		if (serverIP != null) {
 			setTitle(getString(R.string.dashboard_connected, serverIP));
 		}
-		
-		getActionBar().addItem(ActionBarItem.Type.Info);
-		
-		ActionBarItem item = getActionBar().newActionBarItem(NormalActionBarItem.class);
-		item.setDrawable(R.drawable.action_bar_disconnect).setContentDescription(R.string.dashboard_disconnect);
-		addActionBarItem(item);
-		
+				
 		gameState = (Button) findViewById(R.id.buttonGameState);
 		gameState.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -71,7 +58,7 @@ public class DashboardActivity extends GDActivity {
 		settings = (Button) findViewById(R.id.buttonServerSettings);
 		settings.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(DashboardActivity.this, ServerSettingsContainer.class);
+				Intent intent = new Intent(DashboardActivity.this, ServerSettingsActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -86,26 +73,22 @@ public class DashboardActivity extends GDActivity {
 
 		teams = (Button) findViewById(R.id.buttonTeams);
 		teams.setEnabled(false);
+		
+		upgrades = (Button) findViewById(R.id.buttonUpgrades);
+		upgrades.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(DashboardActivity.this, UpgradeActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		mapLayout = (Button) findViewById(R.id.buttonMapLayout);
+		mapLayout.setEnabled(false);		
 
 		// Doing this here means we don't have to do it anywhere else
 		telnet = ConnectionActivity.telnet;
 		telnet.send("import json");
 
-	}
-
-	@Override
-	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
-		switch (position) {
-		case 0:
-			Intent intent = new Intent(DashboardActivity.this, InformationActivity.class);
-			startActivity(intent);
-			return true;
-		case 1:
-			finish();
-			return true;
-		default:
-			return false;
-		}
 	}
 
 }

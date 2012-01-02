@@ -15,12 +15,11 @@
  ******************************************************************************/
 package org.trosnoth.serveradmin;
 
+import android.app.Application;
 
-import greendroid.app.GDApplication;
+public class TrosnothApplication extends Application {
 
-public class TrosnothApplication extends GDApplication {
-
-	private String serverIP = null;
+	private String serverIP = null;	
 	
 	public String getServer() {
 		return serverIP;
@@ -29,9 +28,5 @@ public class TrosnothApplication extends GDApplication {
 	public void setServer(String server) {
 		serverIP = server;
 	}
-	
-	@Override
-	public Class<?> getHomeActivityClass() {
-		return DashboardActivity.class;
-	}
+
 }

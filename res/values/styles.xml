@@ -29,9 +29,8 @@
         <item name="android:background">@null</item>
     </style>
 
-    <style name="Theme.Trosnoth" parent="@style/Theme.GreenDroid.Light.NoTitleBar">
-        <item name="gdActionBarBackground">@color/text_menu</item>
-        <item name="gdActionBarDividerWidth">2px</item>
+    <style name="Theme.Trosnoth" parent="@style/Theme.Sherlock.Light">
+        
     </style>
 
 </resources>
