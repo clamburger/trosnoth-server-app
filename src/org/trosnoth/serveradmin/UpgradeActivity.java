@@ -23,7 +23,9 @@ import org.json.JSONObject;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.Upgrade;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -38,12 +40,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class UpgradeActivity extends FragmentActivity {
 	
@@ -73,7 +76,7 @@ public class UpgradeActivity extends FragmentActivity {
         list.setAdapter(adapter);
         list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-				Toast.makeText(getApplicationContext(), "Not yet implemented.", Toast.LENGTH_SHORT).show();
+				showUpgradeDialog(position);
 			}
 		});
 		
@@ -99,7 +102,7 @@ public class UpgradeActivity extends FragmentActivity {
 		telnet.send("game = getGame()");
 		
 		String jsonString = telnet.readWrite("print json.dumps(getGame().getUpgrades())");
-		
+
 		upgrades.clear();
 		
 		try {
@@ -114,6 +117,8 @@ public class UpgradeActivity extends FragmentActivity {
 			Log.e(LOGTAG, jsonString);
 			return;
 		}
+		
+		adapter.notifyDataSetChanged();
 		
 	}
 
@@ -159,6 +164,49 @@ public class UpgradeActivity extends FragmentActivity {
 			}
 			return v;
 		}
+	}
+	
+	private void showUpgradeDialog(int position) {
+		AlertDialog.Builder builder;
+		AlertDialog alertDialog;
+
+		Context mContext = UpgradeActivity.this;
+		LayoutInflater inflater = (LayoutInflater) mContext
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.upgrade_dialog,
+						(ViewGroup) findViewById(R.id.layout_root));
+		
+		final Upgrade upgrade = adapter.getItem(position);
+
+		final EditText stars = (EditText) layout.findViewById(R.id.editStars);
+		stars.setText(Integer.toString(upgrade.starCost));
+		
+		final EditText time = (EditText) layout.findViewById(R.id.editTime);
+		time.setText(Integer.toString(upgrade.timeLimit));
+		
+		builder = new AlertDialog.Builder(mContext);
+		builder.setView(layout);
+		alertDialog = builder.create();
+		alertDialog.setTitle(upgrade.name);
+		alertDialog.setButton(-1, getApplicationContext().getString(R.string.save),
+			new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					if (stars.getText().length() > 0) {
+						telnet.send("getGame().setUpgradeCost('" + upgrade.id + "', " + stars.getText() + ")");
+					}
+					if (time.getText().length() > 0) {
+						telnet.send("getGame().setUpgradeTime('" + upgrade.id + "', " + time.getText() + ")");
+					}
+					update();
+				}
+			});
+		alertDialog.setButton(-2, getApplicationContext().getString(R.string.cancel),
+			new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
+		alertDialog.show();
 	}
 	
 	@Override

@@ -28,10 +28,7 @@
         android:layout_marginRight="5sp"
         android:inputType="number"
         android:nextFocusDown="@+id/editSeconds"
-        android:nextFocusRight="@+id/editSeconds" >
-
-        <requestFocus />
-    </EditText>
+        android:nextFocusRight="@+id/editSeconds" />
 
     <TextView
         android:id="@+id/textView1"

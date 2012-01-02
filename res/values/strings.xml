@@ -131,6 +131,8 @@
     <string name="upgrade_respawn_freezer">Respawn Freezer</string>
     <string name="upgrade_directator">Directator</string>
     
+    <string name="upgrade_update">Change upgrade numerics</string>
+    
     <!-- Generics -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
