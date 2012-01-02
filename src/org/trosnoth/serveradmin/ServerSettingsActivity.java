@@ -26,7 +26,13 @@ import java.util.Set;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.InputFilters;
 
+import android.support.v4.app.ActionBar;
+import android.support.v4.app.SherlockPreferenceActivity;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -34,12 +40,13 @@ import android.os.Handler;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.widget.EditText;
+import android.widget.Toast;
 
-public class ServerSettingsActivity extends PreferenceActivity implements
+public class ServerSettingsActivity extends SherlockPreferenceActivity implements
 				OnSharedPreferenceChangeListener {
 
 	private static final String LOGTAG = "ServerSettings";
@@ -192,6 +199,9 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		telnet = ConnectionActivity.telnet;
 		telnet.send("game = getGame()");
@@ -285,4 +295,32 @@ public class ServerSettingsActivity extends PreferenceActivity implements
 
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.refresh_only, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    
+	        case android.R.id.home:
+	            Intent intent = new Intent(this, DashboardActivity.class);
+	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	            startActivity(intent);
+	            return true;
+	            
+	        case R.id.refresh:
+	        	update();
+	        	Toast.makeText(this, "You feel refreshed.", Toast.LENGTH_SHORT).show();
+	        	return true;
+	        	
+	        default:
+	        	Log.i(LOGTAG, "Option selection fell through.");
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 }

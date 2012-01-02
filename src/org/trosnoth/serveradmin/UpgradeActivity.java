@@ -23,20 +23,29 @@ import org.json.JSONObject;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.Upgrade;
 
-import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActionBar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class UpgradeActivity extends ListActivity {
+public class UpgradeActivity extends FragmentActivity {
 	
 	private static final String LOGTAG = "Upgrades";
 
@@ -47,13 +56,26 @@ public class UpgradeActivity extends ListActivity {
 	JSONObject upgradeInfo;
 	Handler mHandler = new Handler();
 	
+	ListView list;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.upgrades);
+		
+		ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		telnet = ConnectionActivity.telnet;
 		adapter = new UpgradeAdapter(this, R.layout.upgrades_list, upgrades);
-        setListAdapter(adapter);
+		
+		list = (ListView) findViewById(R.id.list); 
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+				Toast.makeText(getApplicationContext(), "Not yet implemented.", Toast.LENGTH_SHORT).show();
+			}
+		});
 		
 		// Update every 5 seconds
 		Runnable looper = new Runnable() {
@@ -127,13 +149,44 @@ public class UpgradeActivity extends ListActivity {
 				}
 				
 				TextView tt = (TextView) v.findViewById(R.id.toptext);
-				tt.setText("Name: " + upgrade.name);
+				tt.setText(upgrade.name);
 				
-				TextView bt = (TextView) v.findViewById(R.id.bottomtext);
-				bt.setText("ID: " + upgrade.id);
+				TextView textStars = (TextView) v.findViewById(R.id.textStars);
+				textStars.setText(Integer.toString(upgrade.starCost));
+				
+				TextView textTime = (TextView) v.findViewById(R.id.textTime);
+				textTime.setText(Integer.toString(upgrade.timeLimit));
 			}
 			return v;
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.refresh_only, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    
+	        case android.R.id.home:
+	            Intent intent = new Intent(this, DashboardActivity.class);
+	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	            startActivity(intent);
+	            return true;
+	            
+	        case R.id.refresh:
+	        	update();
+	        	Toast.makeText(this, "You feel refreshed.", Toast.LENGTH_SHORT).show();
+	        	return true;
+	        	
+	        default:
+	        	Log.i(LOGTAG, "Option selection fell through.");
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 }

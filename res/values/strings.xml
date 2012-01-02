@@ -141,6 +141,8 @@
     <string name="secs">secs</string>
     <string name="loading">Loading...</string>
     <string name="unknown">Unknown</string>
+    <string name="refresh">Refresh</string>
+    <string name="players">Players</string>
     
     <string name="not_yet_implemented">Not yet implemented</string>
 

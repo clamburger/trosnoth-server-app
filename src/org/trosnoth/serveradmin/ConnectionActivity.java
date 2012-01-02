@@ -25,7 +25,6 @@ import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -63,14 +62,14 @@ public class ConnectionActivity extends Activity {
 	public static Boolean automaticUpdate;
 
 	private String errorMessage;
-	
+
 	private ProgressDialog loader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.connection);
-		
+
 		errorMessage = getApplicationContext().getString(R.string.connection_error_error);
 
 		buttonConnect = (Button) findViewById(R.id.buttonConnect);
@@ -141,33 +140,36 @@ public class ConnectionActivity extends Activity {
 
 		// Doesn't work; too much effort for too little reward at the moment
 		// dialog = ProgressDialog.show(this, "", "Connecting...", true, true);
-		
+
 		this.ip = ip;
 		this.port = port;
 		this.password = password;
-		
+
 		loader = ProgressDialog.show(this, "", "Connecting...", true);
 		new ConnectionTask().execute();
 	}
-	
+
 	private String ip;
 	private int port;
 	private String password;
-	
+
 	private class ConnectionTask extends AsyncTask<Void, Void, Integer> {
-				
+
 		protected Integer doInBackground(Void... params) {
 
 			Context context = getApplicationContext();
-			
+
 			try {
 				telnet = new AutomatedTelnetClient(ip, port, password);
 			} catch (ConnectException e) {
-				errorMessage = context.getString(R.string.connection_error_refused, e.getClass().getCanonicalName());
+				errorMessage = context.getString(R.string.connection_error_refused, e.getClass()
+								.getCanonicalName());
 			} catch (SocketTimeoutException e) {
-				errorMessage = context.getString(R.string.connection_error_timeout, e.getClass().getCanonicalName());
+				errorMessage = context.getString(R.string.connection_error_timeout, e.getClass()
+								.getCanonicalName());
 			} catch (IOException e) {
-				errorMessage = context.getString(R.string.connection_error_io, ip, e.getClass().getCanonicalName());
+				errorMessage = context.getString(R.string.connection_error_io, ip, e.getClass()
+								.getCanonicalName());
 			}
 
 			if (telnet == null) {
@@ -187,37 +189,50 @@ public class ConnectionActivity extends Activity {
 			if (gameInt == 0) {
 				return 1337;
 			}
-			
+
 			return 1;
-			
+
 		}
-		
+
 		protected void onPostExecute(Integer result) {
 			loader.dismiss();
-			Log.i(LOGTAG, "Result: " +result);
+			Log.i(LOGTAG, "Result: " + result);
 			if (result == 1) {
 				nextMenu();
+			} else if (result == 666) {
+				thereAreNoHeroesLeftInMan();
 			} else if (result == 1337) {
 				weWillBuildHeroes();
 			}
 		}
 
 	}
-	
+
 	public void weWillBuildHeroes() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(R.string.connection_no_games)
-		.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-				telnet.send("authfactory.createGame()");
-				nextMenu();
-			}
-		}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+						.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+								telnet.send("authfactory.createGame()");
+								nextMenu();
+							}
+						}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
+		builder.create().show();
+	}
+
+	public void thereAreNoHeroesLeftInMan() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(errorMessage).setPositiveButton(R.string.okay,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
 		builder.create().show();
 	}
 
@@ -227,37 +242,9 @@ public class ConnectionActivity extends Activity {
 		toast.show();
 	}
 
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		if (id == 1337) {
-			builder.setMessage(R.string.connection_no_games)
-							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.cancel();
-									telnet.send("authfactory.createGame()");
-									nextMenu();
-								}
-							}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.cancel();
-								}
-							});
-		} else if (id == 666) {
-			builder.setMessage(errorMessage).setPositiveButton(R.string.okay,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.cancel();
-								}
-							});
-		}
-		dialog = builder.create();
-		return dialog;
-	}
-
 	private void nextMenu() {
 		Intent intent = new Intent(ConnectionActivity.this, DashboardActivity.class);
-		TrosnothApplication appState = (TrosnothApplication)getApplicationContext();
+		TrosnothApplication appState = (TrosnothApplication) getApplicationContext();
 		appState.setServer(serverIP);
 		startActivity(intent);
 	}

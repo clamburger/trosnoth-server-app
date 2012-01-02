@@ -30,7 +30,8 @@
     </style>
 
     <style name="Theme.Trosnoth" parent="@style/Theme.Sherlock.Light">
-        
+        <!-- <item name="abBackground">@color/text_menu</item>
+        <item name="abTitleTextStyle">@style/a</item> -->
     </style>
 
 </resources>

@@ -18,16 +18,21 @@ package org.trosnoth.serveradmin;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 import org.trosnoth.serveradmin.helpers.InputFilters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActionBar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -38,7 +43,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameStateActivity extends Activity {
+public class GameStateActivity extends FragmentActivity {
 
 	private static final String LOGTAG = "GameState";
 
@@ -63,6 +68,9 @@ public class GameStateActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game_state);
+		
+		ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 
 		startGame = (Button) findViewById(R.id.buttonStartGame);
 		endGame = (Button) findViewById(R.id.buttonEndGame);
@@ -318,6 +326,34 @@ public class GameStateActivity extends Activity {
 			return alertDialog;
 		}
 		return null;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.refresh_only, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    
+	        case android.R.id.home:
+	            Intent intent = new Intent(this, DashboardActivity.class);
+	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	            startActivity(intent);
+	            return true;
+	            
+	        case R.id.refresh:
+	        	update();
+	        	Toast.makeText(this, "You feel refreshed.", Toast.LENGTH_SHORT).show();
+	        	return true;
+	        	
+	        default:
+	        	Log.i(LOGTAG, "Option selection fell through.");
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 }

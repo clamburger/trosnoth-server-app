@@ -21,12 +21,17 @@ import java.util.HashMap;
 
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActionBar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,8 +47,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class PlayerActivity extends Activity {
+public class PlayerActivity extends FragmentActivity {
 
 	private static final String LOGTAG = "Players";
 
@@ -89,6 +95,9 @@ public class PlayerActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.players);
+		
+		ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 
 		for (int i = 0; i < upgrades.length; i++) {
 			upgradeMapping.put(upgradeCodes[i], upgrades[i]);
@@ -383,6 +392,38 @@ public class PlayerActivity extends Activity {
 		String player = currentPlayer;
 		player = player.replace("\"", "\\\"");
 		return "\"" + player + "\"";
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.players, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    
+	        case android.R.id.home:
+	            Intent intent = new Intent(this, DashboardActivity.class);
+	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	            startActivity(intent);
+	            return true;
+	            
+	        case R.id.players:
+	        	playerDrawer.animateToggle();
+	        	return true;
+	            
+	        case R.id.refresh:
+	        	update();
+	        	Toast.makeText(this, "You feel refreshed.", Toast.LENGTH_SHORT).show();
+	        	return true;
+	        	
+	        default:
+	        	Log.i(LOGTAG, "Option selection fell through.");
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 }

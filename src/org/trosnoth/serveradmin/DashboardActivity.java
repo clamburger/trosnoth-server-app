@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class DashboardActivity extends Activity {
 
@@ -72,7 +73,11 @@ public class DashboardActivity extends Activity {
 		});
 
 		teams = (Button) findViewById(R.id.buttonTeams);
-		teams.setEnabled(false);
+		teams.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "Not yet implemented.", Toast.LENGTH_SHORT).show();
+			}
+		});
 		
 		upgrades = (Button) findViewById(R.id.buttonUpgrades);
 		upgrades.setOnClickListener(new OnClickListener() {
@@ -83,7 +88,11 @@ public class DashboardActivity extends Activity {
 		});
 		
 		mapLayout = (Button) findViewById(R.id.buttonMapLayout);
-		mapLayout.setEnabled(false);		
+		mapLayout.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "Not yet implemented.", Toast.LENGTH_SHORT).show();
+			}
+		});		
 
 		// Doing this here means we don't have to do it anywhere else
 		telnet = ConnectionActivity.telnet;

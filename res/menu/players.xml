@@ -14,19 +14,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:orientation="vertical"
-     android:layout_width="fill_parent"
-     android:layout_height="fill_parent"
-     >
-     <ListView  
-         android:id="@+id/list"
-         android:layout_width="fill_parent" 
-         android:layout_height="wrap_content" 
-         />
-     <TextView android:id="@+id/empty"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="No upgrades available."
-         />
-</LinearLayout>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/players" android:title="@string/players" android:icon="@drawable/ic_action_players" android:showAsAction="ifRoom"></item><item android:id="@+id/refresh" android:title="@string/refresh" android:icon="@drawable/ic_action_refresh" android:showAsAction="always"></item>
+    
+
+    
+
+</menu>
