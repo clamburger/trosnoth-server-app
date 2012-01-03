@@ -23,7 +23,7 @@ public class Upgrade {
     public String id;
     public String name;
     public int starCost;
-    public int timeLimit;
+    public Double timeLimit;
     public String icon;
     public Boolean special;
     
@@ -31,7 +31,7 @@ public class Upgrade {
     	id = json.getString("id");
     	name = json.getString("name");
     	starCost = json.getInt("starCost");
-    	timeLimit = json.getInt("timeLimit");
+    	timeLimit = json.getDouble("timeLimit");
     	icon = json.getString("icon");
     	special = json.getBoolean("special");
     }

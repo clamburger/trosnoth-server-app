@@ -160,7 +160,7 @@ public class UpgradeActivity extends FragmentActivity {
 				textStars.setText(Integer.toString(upgrade.starCost));
 				
 				TextView textTime = (TextView) v.findViewById(R.id.textTime);
-				textTime.setText(Integer.toString(upgrade.timeLimit));
+				textTime.setText(Double.toString(upgrade.timeLimit));
 			}
 			return v;
 		}
@@ -182,7 +182,7 @@ public class UpgradeActivity extends FragmentActivity {
 		stars.setText(Integer.toString(upgrade.starCost));
 		
 		final EditText time = (EditText) layout.findViewById(R.id.editTime);
-		time.setText(Integer.toString(upgrade.timeLimit));
+		time.setText(Double.toString(upgrade.timeLimit));
 		
 		builder = new AlertDialog.Builder(mContext);
 		builder.setView(layout);

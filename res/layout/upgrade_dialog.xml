@@ -57,7 +57,7 @@
             android:id="@+id/editTime"
             android:layout_width="80sp"
             android:layout_height="wrap_content"
-            android:inputType="number" android:layout_marginLeft="10dp" android:gravity="center_horizontal"/>
+            android:inputType="numberDecimal" android:layout_marginLeft="10dp" android:gravity="center_horizontal"/>
 
     </TableRow>
 
