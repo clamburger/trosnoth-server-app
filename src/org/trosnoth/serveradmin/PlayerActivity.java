@@ -127,7 +127,7 @@ public class PlayerActivity extends FragmentActivity {
 		kickPlayer = (Button) findViewById(R.id.buttonKickPlayer);
 		kickPlayer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				telnet.send("game.kickPlayer(game.getPlayers()["+currentPlayer()+"].id)");
+				telnet.send("getGame().kickPlayer(game.getPlayers()["+currentPlayer()+"].id)");
 				update();
 			}
 		});

@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
-import android.text.Editable;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
@@ -115,7 +114,6 @@ public class DashboardActivity extends FragmentActivity {
 		
 		new AlertDialog.Builder(this)
 	    .setTitle("Send a server message")
-	    //.setMessage(message)
 	    .setView(input)
 	    .setPositiveButton("Send", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int whichButton) {
