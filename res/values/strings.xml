@@ -143,8 +143,11 @@
     <string name="secs">secs</string>
     <string name="loading">Loading...</string>
     <string name="unknown">Unknown</string>
+    
+    <!-- Action Bar -->
     <string name="refresh">Refresh</string>
     <string name="players">Players</string>
+    <string name="send_message">Send Message</string>
     
     <string name="not_yet_implemented">Not yet implemented</string>
 

@@ -18,15 +18,25 @@ package org.trosnoth.serveradmin;
 import org.trosnoth.serveradmin.R;
 import org.trosnoth.serveradmin.helpers.AutomatedTelnetClient;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
+import android.text.Editable;
+import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class DashboardActivity extends FragmentActivity {
+
+	private static final String LOGTAG = "Dashboard";
 
 	AutomatedTelnetClient telnet;
 
@@ -98,6 +108,51 @@ public class DashboardActivity extends FragmentActivity {
 		telnet = ConnectionActivity.telnet;
 		telnet.send("import json");
 
+	}
+	
+	public void promptForMessage() {
+		final EditText input = new EditText(this);
+		
+		new AlertDialog.Builder(this)
+	    .setTitle("Send a server message")
+	    //.setMessage(message)
+	    .setView(input)
+	    .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            String message = input.getText().toString();
+	            if (message.length() == 0) {
+	            	return;
+	            }
+	            
+	            message = message.replaceAll("\"", "\\\"");
+	            telnet.send("getGame().sendServerMessage(\""+message+"\")");
+	        }
+	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            // Do nothing.
+	        }
+	    }).show();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.dashboard, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    
+	        case R.id.sendMessage:
+	        	promptForMessage();
+	        	return true;
+	        	
+	        default:
+	        	Log.i(LOGTAG, "Option selection fell through.");
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 }
